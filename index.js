@@ -493,6 +493,6 @@ app.post('/api_infos_vendedor', function (req, res) {
 
 
 
-server.listen(process.env.PORT || 3526, function () {
+server.listen(process.env.PORT || 3061, function () {
     console.log(`Convite Carregado ${server.address().port}`);
 });
