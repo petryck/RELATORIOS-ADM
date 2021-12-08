@@ -1,0 +1,86 @@
+<center><h1 class="fs-3"><b id="nome_vendedor" style="text-transform: capitalize;"></b> </h1></center>
+<center> <h3 class="fs-6 mb-3" >Relatórios</h3></center>
+   
+
+
+
+
+  <div style="max-height: calc(100% - 70px);overflow-x: auto;" class="caixa_lista">
+
+   
+
+    </div>
+
+
+
+
+  <!-- <div data-tipo="reprovada" class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3 tipo_cotacoes">
+    <i class="uil-file fs-2 text-center  rounded-circle"></i>
+    <div class="ms-3">
+      <div class="d-flex align-items-center">
+        <h3 class="mb-0"></h3> <span class="d-block ms-2">Reprovadas</span>
+      </div>
+      <p class="fs-normal mb-0">Cotações reprovadas</p>
+    </div>
+  </div> -->
+
+
+
+
+  <script>
+
+      meses = {
+          '01': 'Janeiro',
+          '02': 'Fevereiro',
+          '03': 'Março',
+          '04': 'Abril',
+          '05': 'Maio',
+          '06': 'Junho',
+          '07': 'Julho',
+          '08': 'Agosto',
+          '09': 'Setembro',
+          '10': 'Outubro',
+          '11': 'Novembro',
+          '12': 'Dezembro',
+          '13': 'Error'
+        }
+
+        
+id_vendedor = $('#id_vendedor').val()
+
+$.ajax({
+    url: '/api_infos_proposta_mes',
+    method: 'POST',
+    data:{id:id_vendedor},
+    type: 'POST', // For jQuery < 1.9
+    success: function(data){
+
+        text = data[0]['Vendedor'].toLowerCase();
+
+        $('#nome_vendedor').html(text)
+       
+
+   
+
+      $('.caixa_lista').html('');
+   
+      data.forEach(element => {
+
+        pendentes = element.QuantidadeProposta - (element.QuantidadeReprovada+element.QuantidadeAprovada);
+
+    relatorio = '<div class="title_bar" style="height: 100px;padding-top: 7px ​!important;font-size:1.2rem ​!important;position: relative;">'
+    relatorio += '<h6 class="fs-3" style="font-size: 22px!important;top: 96px;"><b>'+meses[element.Mes_Proposta]+' - '+element.Ano_Proposta+'</b> </h6>'
+    relatorio += '<p class="mb-0"><span>Propostas: <b>'+element.QuantidadeProposta+'</b></span> <span style="right: 35px;position: absolute;">Aprovadas: <b>'+element.QuantidadeAprovada+'</b></span></p>'
+    relatorio += '<p class="mb-0"><span>Pendentes: <b>'+pendentes+'</b></span> <span style="right: 35px;position: absolute;">Reprovadas: <b>'+element.QuantidadeReprovada+'</b></span></p>'
+    relatorio += '</div>'
+    relatorio += '<br>'
+  
+
+         $('.caixa_lista').append(relatorio)
+       });
+        
+    }
+  });
+    
+    
+      </script>

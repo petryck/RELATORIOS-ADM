@@ -1,0 +1,73 @@
+<div class="title_bar">
+  <h1 class="fs-3">Propostas Reprovadas</h1>
+  <p class="mb-0">Selecione um vendedor</p>
+</div>
+<br>
+
+<!-- <div class="row">
+  <div class="col-lg-12">
+    <div class="chart-container rounded-2 p-3">
+      <h3 class="fs-6 mb-3">Processos abertos por mês</h3>
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+</div> -->
+
+<div style="max-height: calc(100% - 122px);overflow-x: auto;" class="caixa_lista">
+
+  
+
+
+
+
+</div>
+
+
+
+
+
+
+<!-- <div data-tipo="reprovada" class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3 tipo_cotacoes">
+  <i class="uil-file fs-2 text-center  rounded-circle"></i>
+  <div class="ms-3">
+    <div class="d-flex align-items-center">
+      <h3 class="mb-0"></h3> <span class="d-block ms-2">Reprovadas</span>
+    </div>
+    <p class="fs-normal mb-0">Cotações reprovadas</p>
+  </div>
+</div> -->
+
+
+
+
+<script>
+
+
+$.ajax({
+    url: '/api_infos_vendedor',
+    method: 'POST',
+    type: 'POST', // For jQuery < 1.9
+    success: function(data){
+      $('.caixa_lista').html('');
+  
+      data.forEach(element => {
+
+
+  vendedor = '<div data-id_vendedor="'+element.IdPessoa+'" data-tipo="vendedor_reprovadas" class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3 tipo_cotacoes">'
+  vendedor += '<i class="icon ion-ios-person fs-2 text-center  rounded-circle"></i>'
+  vendedor += '<div class="ms-3">'
+  vendedor += '<div class="d-flex align-items-center">'
+    vendedor += '<h3 class="mb-0"></h3> <span class="d-warning ms-2" style="text-transform: capitalize;"><b>'+element.Vendedor.toLowerCase();+'</b></span>'
+  vendedor += '</div>'
+  vendedor += '<p class="fs-normal mb-0" style="margin-left: 13px;font-size: 13px;">'+element.QuantidadeReprovada+' REPROVADAS | '+element.QuantidadeCliente+' CLIENTES | '+element.Aproveitamento+' MC</p>'
+  vendedor += '</div>'
+  vendedor += '</div>'
+  
+
+         $('.caixa_lista').append(vendedor)
+       });
+        
+    }
+  });
+  
+    </script>

@@ -1,0 +1,347 @@
+<div class="title_bar">
+  <h1 class="fs-3" id="numero_proposta"></h1>
+  <p class="mb-0" style="font-size: 12px;" id="cliente"></p>
+</div>
+
+
+
+<br>
+
+<div  class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
+<div class="row">
+
+<!-- <h6> <b id="tipo_modalidade"></b></h6> <i style="position: absolute;right: 10px;top: 6px;width: 41px;color: #2a2b3d;align-items: center;height: 37px;background-color: #d1d5db;" class="icon ion-md-arrow-round-down fs-2 text-center  rounded-circle"></i> -->
+
+<div class="corpo_proposta" style="font-size: 13px;">
+  <p>
+    <span><b>Vendedor: </b>
+      <span> 
+        <b id="vendedor_nome">
+    
+        </b> 
+      </span>
+    </span>
+  </p>
+  <p>
+    <span><b>Data abertura:</b> 
+      <span> 
+        <b id="data_abertura">
+  
+        </b> 
+      </span>
+    </span>
+  </p>
+  <p style="    position: absolute;right: 16px;top: 77px;">
+    <span><b>Tipo:</b> 
+      <span> 
+        <b id="tipo_carga">
+     
+        </b> 
+      </span>
+    </span>
+  </p>
+  <p>
+    <span><b>Importador: </b>
+      <span> 
+        <b id="importador">
+    
+        </b> 
+      </span>
+    </span>
+  </p>
+  <p>
+    <span><b>Exportador: </b>
+      <span> 
+        <b id="exportador">
+    
+        </b> 
+      </span>
+    </span>
+  </p>
+  <p>
+    <span><b>CIA:</b> 
+      <span> 
+        <b id="cia_transporte">
+  
+        </b> 
+      </span>
+    </span>
+  </p>
+  <p>
+    <span><b>Origem: </b>
+      <span> 
+        <b id="origem">
+     
+        </b> 
+      </span>
+    </span>
+  </p>
+  <p>
+    <span><b>Destino: </b>
+      <span> 
+        <b id="destino">
+   
+        </b> 
+      </span>
+    </span>
+  </p>
+
+  <p>
+    <span><b>Mercadoria: </b>
+      <span > 
+        <b id="mercadoria">
+        
+        </b> 
+      </span>
+    </span>
+  </p>
+
+
+ 
+ 
+  
+
+
+</div>
+
+</div>
+</div>
+
+<div class="col-12"><center><h6><b>Valores</b></h6></center></div>
+<div  class="box  rounded-2 align-items-center mb-4 mb-lg-0 p-3 ">
+  <div class="row">
+   
+    <div class="corpo_proposta" style="font-size: 13px;">
+    
+   <div class="row" style="text-align: center;vertical-align: middle;">
+    <div class="col-md-6 align-items-center">
+      <b>Pagamento </b>
+      <br>
+      (Compra)
+    </div>
+    <div class="col-md-6 align-items-center">
+      <b>Recebimento </b>
+      <br>
+      (Venda)
+    </div>
+   
+    <div class="col-md-6 align-items-center" id="recebimento">
+     
+    </div>
+    <div class="col-md-6 align-items-center" id="pagamento">
+     
+    </div>
+    
+   </div>
+   <hr>
+   <div class="row" style="text-align: center;vertical-align: middle;">
+    <div class="col-md-12 align-items-center">
+     <b>Profit</b>
+    </div>
+    <div class="col-md-12 align-items-center" id="profit">
+     ------
+     </div>
+  
+   </div>
+    </div>
+  </div>
+</div>
+<div class="col-12">
+  <center>
+    <h6>
+      <b>Histórico de Atividades</b>
+    </h6>
+  </center>
+
+</div>
+
+<div id="lista_atividades">
+
+
+</div>
+
+
+
+<script>
+
+
+
+
+id_proposta = $('#id_proposta').val()
+
+$.ajax({
+  url: '/api_infos_uma_proposta',
+  method: 'POST',
+  data:{id:id_proposta},
+  type: 'POST', // For jQuery < 1.9
+  success: function(data){
+    // console.log(data)
+
+    // if(element.Tipo_modalidade == 'Exportação Maritima' || element.Tipo_modalidade == 'Importação Maritima'){
+    //     Tipo_modalidade = 'ion-ios-boat';
+    //   }else if(element.Tipo_modalidade == 'Exportação Aerea' || element.Tipo_modalidade == 'Importação Aerea'){
+    //     Tipo_modalidade = 'ion-md-airplane';
+    //   }else if(element.Tipo_modalidade == 'Exportação Rodoviaria' || element.Tipo_modalidade == 'Importação Rodoviaria'){
+    //     Tipo_modalidade = 'ion-md-bus';
+    //   }
+   
+  $('#cia_transporte').html(data[0].Cia_Transporte)
+  $('#cliente').html(data[0].Cliente)
+  $('#data_abertura').html(data[0].Data_abertura)
+  $('#origem').html(data[0].Origem)
+  $('#destino').html(data[0].Destino)
+  $('#exportador').html(data[0].Exportador)
+  $('#importador').html(data[0].Importador)
+  $('#numero_proposta').html(data[0].Numero_Proposta)
+  $('#tipo_carga').html(data[0].Tipo_Carga)
+  $('#tipo_modalidade').html(data[0].Tipo_modalidade)
+  $('#vendedor_nome').html(data[0].Vendedor)
+    // text = data[0]['Vendedor'].toLowerCase();
+
+    //   $('#nome_vendedor').html(text)
+
+    // $('.caixa_lista').html('');
+
+
+
+
+    
+
+    $.ajax({
+  url: '/api_valores_proposta',
+  method: 'POST',
+  data:{id:id_proposta},
+  type: 'POST', // For jQuery < 1.9
+  success: function(valores){
+    $('#pagamento').html('')
+    profit = [];
+    profit['Recebimento'] = [];
+    profit['Pagamento'] = [];
+    profit['total'] = [];
+    valores.forEach(element => {
+
+      if(element.Natureza == "Recebimento"){
+        profit['Recebimento'][element.Moeda] = element.Valor;
+
+        var f = element.Valor.toLocaleString('pt-br',{style: 'currency', currency: element.Moeda});
+        $('#pagamento').append(f+'<br>')
+
+        if(profit['total'][element.Moeda]){
+        profit['total'][element.Moeda] = element.Valor + profit['total'][element.Moeda];
+      }else{
+        profit['total'][element.Moeda] = element.Valor;
+      }
+
+      }else if(element.Natureza == "Pagamento"){
+        profit['Pagamento'][element.Moeda] = element.Valor;
+
+        var f = element.Valor.toLocaleString('pt-br',{style: 'currency', currency: element.Moeda});
+        $('#recebimento').append(f+'<br>')
+
+        if(profit['total'][element.Moeda]){
+        profit['total'][element.Moeda] = profit['total'][element.Moeda] + element.Valor;
+      }else{
+        profit['total'][element.Moeda] = element.Valor;
+      }
+      }
+
+
+     
+      
+    });
+
+    // for(var natureza in profit) {
+
+    //   for(var moeda in profit[natureza]) {
+        
+       
+
+    //     if(profit['total'][moeda]){
+    //       console.log('diminuiu')
+    //       profit['total'][moeda] = (profit['total'][moeda] - profit[natureza][moeda]);
+    //     }else{
+    //       console.log('criou')
+    //       profit['total'][moeda] = profit[natureza][moeda];
+    //     }
+        
+     
+
+    //   }
+
+  
+
+    // }
+
+    $.ajax({
+  url: '/api_infos_proposta_atividades',
+  method: 'POST',
+  data:{id:id_proposta},
+  type: 'POST', // For jQuery < 1.9
+  success: function(atividades){
+    console.log(atividades)
+
+    $('#lista_atividades').append('')
+
+    atividades.forEach(element => {
+
+
+      if(element.Situacao == 'Concluido'){
+        situacao = 'ion-ios-checkmark-circle';
+      }else if(element.Situacao == 'Iniciado'){
+        situacao = 'ion-ios-play';
+      }else if(element.Situacao == 'Cancelado'){
+        situacao = 'ion-ios-close-circle';
+      }else if(element.Situacao == 'Paralizado'){
+        situacao = 'ion-ios-pause';
+      }else if(element.Situacao == 'Não efetuado'){
+        situacao = 'ion-ios-power';
+      }else{
+        situacao = element.Situacao;
+      }
+
+      
+
+
+      atividade = '<div class="box  rounded-2 align-items-center">'
+      atividade += '<div class="row">'
+      atividade += '<div class="corpo_proposta" >'
+      atividade += '<div class="col-12" style="text-align: center;vertical-align: middle;">'
+      atividade += '<p style="margin-bottom: 0px;"><i style="margin-right: 5px;" class="icon '+situacao+' fs-2 text-center  rounded-circle"></i> '+element.Tarefa+'</p>'
+      atividade += '</div>'
+      atividade += '</div>'
+      atividade += '</div>'
+      atividade += '</div> <br>'
+
+
+      
+      $('#lista_atividades').append(atividade)
+
+
+      });
+
+
+  }
+})
+    
+    $('#profit').html('')
+
+    for(var moeda in profit['total']) {
+// console.log(natureza, profit['total'][moeda])
+      var f = profit['total'][moeda].toLocaleString('pt-br',{style: 'currency', currency: moeda});
+        $('#profit').append(f+'<br>')
+    }
+   
+    // console.log(profit['total']);
+  }
+})
+
+
+
+
+ 
+   
+  }
+});
+
+</script>
+

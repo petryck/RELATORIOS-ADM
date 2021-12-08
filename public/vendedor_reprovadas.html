@@ -1,0 +1,179 @@
+<div class="title_bar" style="height: 100px;">
+  <h1 class="fs-3"><b id="nome_vendedor" style="text-transform: capitalize;"></b>  <i data-tipo="relatorio_vendedor" class="icon  tipo_cotacoes ion-ios-podium fs-2 text-center  rounded-circle" style="position: absolute;right: 39px;top: 36px;"></i></h1>
+  <!-- <p style="font-size: 12px;" class="mb-0"><span>Propostas: <b>53</b></span> <span style="right: 35px;position: absolute;">Aprovadas: <b>20</b></span></p>
+  <p style="font-size: 12px;" class="mb-0"><span>Pendentes: <b>53</b></span> <span style="right: 35px;position: absolute;">Reprovadas: <b>20</b></span></p> -->
+
+</div>
+<br>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="chart-container rounded-2 p-3">
+      <h3 class="fs-6 mb-3">Propostas Pendentes</h3>
+
+    </div>
+  </div>
+</div>
+
+
+<div style="max-height: calc(100vh - 350px);overflow-x: auto;" class="caixa_lista">
+
+  
+
+
+  
+
+
+
+
+  
+
+
+
+</div>
+
+
+<!-- <div data-tipo="reprovada" class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3 tipo_cotacoes">
+  <i class="uil-file fs-2 text-center  rounded-circle"></i>
+  <div class="ms-3">
+    <div class="d-flex align-items-center">
+      <h3 class="mb-0"></h3> <span class="d-block ms-2">Reprovadas</span>
+    </div>
+    <p class="fs-normal mb-0">Cotações reprovadas</p>
+  </div>
+</div> -->
+
+
+
+
+<script>
+
+
+id_vendedor = $('#id_vendedor').val()
+
+$.ajax({
+  url: '/api_infos_propostas',
+  method: 'POST',
+  data:{id:id_vendedor,
+  page:1,
+  situacao: 2},
+  type: 'POST', // For jQuery < 1.9
+  success: function(data){
+    console.log(data)
+     
+    text = data[0]['Vendedor'].toLowerCase();
+
+      $('#nome_vendedor').html(text)
+
+    $('.caixa_lista').html('');
+ 
+    data.forEach(element => {
+
+      
+   
+      if(element.Tipo_modalidade == 'Exportação Maritima' || element.Tipo_modalidade == 'Importação Maritima'){
+        Tipo_modalidade = 'ion-ios-boat';
+      }else if(element.Tipo_modalidade == 'Exportação Aerea' || element.Tipo_modalidade == 'Importação Aerea'){
+        Tipo_modalidade = 'ion-md-airplane';
+      }else if(element.Tipo_modalidade == 'Exportação Rodoviaria' || element.Tipo_modalidade == 'Importação Rodoviaria'){
+        Tipo_modalidade = 'ion-md-bus';
+      }
+
+    propostas = '<div data-tipo="ver_proposta_aberta" data-id_proposta="'+element.IdOferta_Frete+'" class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3 tipo_cotacoes">'
+    propostas +='<i class="icon '+Tipo_modalidade+' fs-2 text-center  rounded-circle"></i>'
+    propostas +='<div class="ms-3">'
+    propostas +='<div class="d-flex align-items-center">'
+    propostas +='<h3 class="mb-0"></h3> <span class="d-warning ms-2" style="font-size: 12px;"><b>'+element.Cliente+'</b></span>'
+    propostas +='</div>'
+    propostas +='<p class="fs-normal mb-0" style="right: 2px;font-size: 13px;position: absolute;">'+element.Numero_Proposta+'</p>'
+    propostas +='</div>'
+    propostas +='</div>'
+
+
+       $('.caixa_lista').append(propostas)
+     });
+      
+  }
+});
+
+page = 2;
+carregando = false;
+
+$('.caixa_lista').bind('scroll', function() {
+
+      /*
+      * scrollTop -> Quanto rolou
+      * innerHeight -> Altura do interior da div
+      * scrollHeight -> Altura do conteúdo da div
+      */
+      if($(this).scrollTop() + $(this).innerHeight() >= this.scrollHeight) {
+
+        if(carregando == false){
+          
+          carregando = true;
+          
+          $(this).append('<img style="width: 99px;margin-left: 37%;margin-top: -18px;margin-bottom: 57px;" id="loading" src="https://www.marinetrader.com/wp-content/uploads/2019/11/boat_loader3.gif"/>');
+
+          serache_prop()
+
+          page = page+1;
+        }
+        
+          // $(this).append("<p>Fim da div</p>");
+      }
+  });
+
+function serache_prop(){
+
+
+
+  $.ajax({
+  url: '/api_infos_propostas',
+  method: 'POST',
+  data:{id:id_vendedor,
+    page:page
+},
+  type: 'POST', // For jQuery < 1.9
+  success: function(data){
+    $('#loading').remove()
+
+
+    data.forEach(element => {
+
+      
+   
+if(element.Tipo_modalidade == 'Exportação Maritima' || element.Tipo_modalidade == 'Importação Maritima'){
+Tipo_modalidade = 'ion-ios-boat';
+}else if(element.Tipo_modalidade == 'Exportação Aerea' || element.Tipo_modalidade == 'Importação Aerea'){
+Tipo_modalidade = 'ion-md-airplane';
+}else if(element.Tipo_modalidade == 'Exportação Rodoviaria' || element.Tipo_modalidade == 'Importação Rodoviaria'){
+Tipo_modalidade = 'ion-md-bus';
+}
+
+propostas = '<div data-tipo="ver_proposta_aberta" data-id_proposta="'+element.IdOferta_Frete+'" class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3 tipo_cotacoes">'
+propostas +='<i class="icon '+Tipo_modalidade+' fs-2 text-center  rounded-circle"></i>'
+propostas +='<div class="ms-3">'
+propostas +='<div class="d-flex align-items-center">'
+propostas +='<h3 class="mb-0"></h3> <span class="d-warning ms-2" style="font-size: 12px;"><b>'+element.Cliente+'</b></span>'
+propostas +='</div>'
+propostas +='<p class="fs-normal mb-0" style="right: 2px;font-size: 13px;top: 2px;position: absolute;">'+element.Data_Abertura+'</p>'
+propostas +='<p class="fs-normal mb-0" style="right: 2px;font-size: 13px;position: absolute;">'+element.Numero_Proposta+'</p>'
+propostas +='</div>'
+propostas +='</div>'
+
+
+$('.caixa_lista').append(propostas)
+
+
+});
+
+carregando = false;
+
+
+}
+
+});
+
+
+}  
+    </script>
