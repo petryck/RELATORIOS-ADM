@@ -78,7 +78,7 @@ $.ajax({
         }else if(element.Tipo_modalidade == 'Exportação Rodoviaria' || element.Tipo_modalidade == 'Importação Rodoviaria'){
           Tipo_modalidade = 'ion-md-bus';
         }else{
-          Tipo_modalidade = '';
+          Tipo_modalidade = element.Tipo_modalidade;
         }
 
       propostas = '<div data-tipo="ver_proposta_aberta" data-id_proposta="'+element.IdOferta_Frete+'" class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3 tipo_cotacoes">'
