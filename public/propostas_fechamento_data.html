@@ -1,15 +1,10 @@
-<div class="title_bar" style="height: 100px;">
-    <h1 class="fs-3"><b id="nome_vendedor" style="text-transform: capitalize;"></b>  <i data-tipo="relatorio_vendedor" class="icon  tipo_cotacoes ion-ios-podium fs-2 text-center  rounded-circle" style="position: absolute;right: 39px;top: 36px;"></i></h1>
-    <!-- <p style="font-size: 12px;" class="mb-0"><span>Propostas: <b>53</b></span> <span style="right: 35px;position: absolute;">Aprovadas: <b>20</b></span></p>
-    <p style="font-size: 12px;" class="mb-0"><span>Pendentes: <b>53</b></span> <span style="right: 35px;position: absolute;">Reprovadas: <b>20</b></span></p> -->
 
-  </div>
   <br>
 
   <div class="row">
     <div class="col-lg-12">
       <div class="chart-container rounded-2 p-3">
-        <h3 class="fs-6 mb-3">Propostas Pendentes</h3>
+        <h3 class="fs-6 mb-3"></h3>
  
       </div>
     </div>
@@ -49,14 +44,15 @@
   <script>
 
 
-id_vendedor = $('#id_vendedor').val()
+situacao = $('#tipo_proposta_fechamento').val()
+
 
 $.ajax({
-    url: '/api_infos_propostas',
+    url: '/api_fechamento_data',
     method: 'POST',
-    data:{id:id_vendedor,
+    data:{
     page:1,
-    situacao: 0},
+    situacao: situacao},
     type: 'POST', // For jQuery < 1.9
     success: function(data){
       console.log(data)
@@ -81,14 +77,17 @@ $.ajax({
           Tipo_modalidade = element.Tipo_modalidade;
         }
 
-      propostas = '<div data-tipo="ver_proposta_aberta" data-id_proposta="'+element.IdOferta_Frete+'" class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3 tipo_cotacoes">'
+      propostas = '<div data-tipo="ver_proposta_fechamento" data-id_proposta="'+element.IdOferta_Frete+'" style="height: 117px;" class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3 tipo_cotacoes">'
       propostas +='<i class="icon '+Tipo_modalidade+' fs-2 text-center  rounded-circle"></i>'
       propostas +='<div class="ms-3">'
-      propostas +='<div class="d-flex align-items-center">'
-      propostas +='<h3 class="mb-0"></h3> <span class="d-warning ms-2" style="font-size: 12px;"><b>'+element.Cliente+'</b></span>'
+      propostas +='<div class="align-items-center" style="margin-top: 18px;">'
+      propostas +='<span class="d-warning ms-2" style="font-size: 12px;"><b>'+element.Cliente+'</b></span>'
+      propostas +='<br> <span class="d-warning ms-2" style="font-size: 12px;">'+element.Vendedor+'</span>'
       propostas +='</div>'
-      propostas +='<p class="fs-normal mb-0" style="right: 255px;font-size: 13px;top: 2px;position: absolute;">'+element.Numero_Proposta+'</p>'
-      propostas +='<p class="fs-normal mb-0" style="right: 2px;font-size: 13px;position: absolute;">'+element.Data_abertura+'</p>'
+      propostas +='<p class="fs-normal mb-0" style="right: 255px;font-size: 13px;top: 5px;position: absolute;">'+element.Numero_Proposta+'</p>'
+      propostas +='<p class="fs-normal mb-0" style="right: 199px;font-size: 13px;top: 21px;position: absolute;width: 139px;">'+element.Tipo_modalidade+'</p>'
+      propostas +='<p class="fs-normal mb-0" style="right: 5px;font-size: 13px;position: absolute;top: 5px;">'+element.Data_abertura+'</p>'
+      propostas +='<p class="fs-normal mb-0" style="right: 5px;font-size: 13px;position: absolute;">'+element.Tipo_Carga+'</p>'
       propostas +='</div>'
       propostas +='</div>'
   
@@ -131,10 +130,11 @@ $.ajax({
 
 
     $.ajax({
-    url: '/api_infos_propostas',
+    url: '/api_fechamento_data',
     method: 'POST',
-    data:{id:id_vendedor,
-      page:page
+    data:{
+      page:page,
+      situacao: situacao
   },
     type: 'POST', // For jQuery < 1.9
     success: function(data){
@@ -153,7 +153,7 @@ if(element.Tipo_modalidade == 'Exportação Maritima' || element.Tipo_modalidade
   Tipo_modalidade = 'ion-md-bus';
 }
 
-propostas = '<div data-tipo="ver_proposta_aberta" data-id_proposta="'+element.IdOferta_Frete+'" class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3 tipo_cotacoes">'
+propostas = '<div data-tipo="ver_proposta_fechamento" data-id_proposta="'+element.IdOferta_Frete+'" style="height: 117px;" class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3 tipo_cotacoes">'
 propostas +='<i class="icon '+Tipo_modalidade+' fs-2 text-center  rounded-circle"></i>'
 propostas +='<div class="ms-3">'
 propostas +='<div class="d-flex align-items-center">'

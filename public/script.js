@@ -109,6 +109,7 @@ $(document).on('click', '.tipo_cotacoes', function(e){
 
   id_vendedor = button.attr('data-id_vendedor');
   id_proposta = button.attr('data-id_proposta');
+  id_tipo_fechamento = button.attr('data-id');
 
   if(id_proposta != undefined){
     $('#id_proposta').val(id_proposta)
@@ -117,12 +118,21 @@ $(document).on('click', '.tipo_cotacoes', function(e){
   if(id_vendedor != undefined){
     $('#id_vendedor').val(id_vendedor)
   }
+
+
+  if(id_tipo_fechamento != undefined){
+    $('#tipo_proposta_fechamento').val(id_tipo_fechamento)
+  }
+
+
  
 
   $.ajax({
     url: '/page',
     method: 'POST',
-    data:{page: pagina},
+    data:{
+      page: pagina
+    },
     type: 'POST', // For jQuery < 1.9
     success: function(data){
        
@@ -135,14 +145,12 @@ $(document).on('click', '.tipo_cotacoes', function(e){
         }else if(pagina == 'cotacoes'){
           $('#btn_voltar').attr('data-url_voltar', '');
           $('#btn_voltar').css('display', 'none')
-        }else if(pagina == 'cotacao_vendedores_abertas' || pagina == 'cotacao_vendedores_aprovadas' || pagina == 'cotacao_vendedores_reprovadas'){
+        }else if(pagina == 'cotacao_vendedores_abertas' || pagina == 'cotacao_vendedores_aprovadas' || pagina == 'cotacao_vendedores_reprovadas' || pagina == 'fechamentos_data'){
           $('#btn_voltar').attr('data-url_voltar', 'cotacoes');
           $('#btn_voltar').css('display', 'block')
         }else if(pagina == 'vendedor_abertas'){
           $('#btn_voltar').attr('data-url_voltar', 'cotacao_vendedores_abertas');
           $('#btn_voltar').css('display', 'block')
-
-          
         }else if(pagina == 'vendedor_reprovadas'){
           $('#btn_voltar').attr('data-url_voltar', 'cotacao_vendedores_reprovadas');
           $('#btn_voltar').css('display', 'block')
@@ -158,7 +166,15 @@ $(document).on('click', '.tipo_cotacoes', function(e){
         }else if(pagina == 'ver_proposta_reprovada'){
           $('#btn_voltar').attr('data-url_voltar', 'vendedor_reprovadas');
           $('#btn_voltar').css('display', 'block')
+        }else if(pagina == 'propostas_fechamento_data'){
+          $('#btn_voltar').attr('data-url_voltar', 'fechamentos_data');
+          $('#btn_voltar').css('display', 'block')
+        }else if(pagina == 'ver_proposta_fechamento'){
+          $('#btn_voltar').attr('data-url_voltar', 'propostas_fechamento_data');
+          $('#btn_voltar').css('display', 'block')
         }
+
+        
 
 
         
@@ -202,11 +218,17 @@ $(document).on('click', '#btn_voltar', function(e){
         }else if(url_voltar == 'vendedor_aprovadas'){
           $('#btn_voltar').attr('data-url_voltar', 'cotacao_vendedores_aprovadas');
           $('#btn_voltar').css('display', 'block')
-        }else if(url_voltar == 'cotacao_vendedores_abertas' || url_voltar == 'cotacao_vendedores_aprovadas' || url_voltar == 'cotacao_vendedores_reprovadas'){
-          
+        }else if(url_voltar == 'cotacao_vendedores_abertas' || url_voltar == 'cotacao_vendedores_aprovadas' || url_voltar == 'cotacao_vendedores_reprovadas' || url_voltar == 'fechamentos_data'){
           $('#btn_voltar').attr('data-url_voltar', 'cotacoes');
           $('#btn_voltar').css('display', 'block')
+        }else if(url_voltar == 'propostas_fechamento_data'){
+          $('#btn_voltar').attr('data-url_voltar', 'fechamentos_data');
+          $('#btn_voltar').css('display', 'block')
+        }else if(url_voltar == 'ver_proposta_fechamento'){
+          $('#btn_voltar').attr('data-url_voltar', 'propostas_fechamento_data');
+          $('#btn_voltar').css('display', 'block')
         }
+
 
         
         

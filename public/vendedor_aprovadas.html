@@ -79,15 +79,16 @@ $.ajax({
         Tipo_modalidade = 'ion-md-bus';
       }
 
-    propostas = '<div data-tipo="ver_proposta_aberta" data-id_proposta="'+element.IdOferta_Frete+'" class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3 tipo_cotacoes">'
-    propostas +='<i class="icon '+Tipo_modalidade+' fs-2 text-center  rounded-circle"></i>'
-    propostas +='<div class="ms-3">'
-    propostas +='<div class="d-flex align-items-center">'
-    propostas +='<h3 class="mb-0"></h3> <span class="d-warning ms-2" style="font-size: 12px;"><b>'+element.Cliente+'</b></span>'
-    propostas +='</div>'
-    propostas +='<p class="fs-normal mb-0" style="right: 2px;font-size: 13px;position: absolute;">'+element.Numero_Proposta+'</p>'
-    propostas +='</div>'
-    propostas +='</div>'
+      propostas = '<div data-tipo="ver_proposta_aberta" data-id_proposta="'+element.IdOferta_Frete+'" class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3 tipo_cotacoes">'
+      propostas +='<i class="icon '+Tipo_modalidade+' fs-2 text-center  rounded-circle"></i>'
+      propostas +='<div class="ms-3">'
+      propostas +='<div class="d-flex align-items-center">'
+      propostas +='<h3 class="mb-0"></h3> <span class="d-warning ms-2" style="font-size: 12px;"><b>'+element.Cliente+'</b></span>'
+      propostas +='</div>'
+      propostas +='<p class="fs-normal mb-0" style="right: 255px;font-size: 13px;top: 2px;position: absolute;">'+element.Numero_Proposta+'</p>'
+      propostas +='<p class="fs-normal mb-0" style="right: 2px;font-size: 13px;position: absolute;">'+element.Data_abertura+'</p>'
+      propostas +='</div>'
+      propostas +='</div>'
 
 
        $('.caixa_lista').append(propostas)
