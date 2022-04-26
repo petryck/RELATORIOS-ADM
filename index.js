@@ -229,7 +229,7 @@ app.post('/api_infos_propostas', function (req, res) {
   id_vendedor = req.body.id;
   SituacaoProposta = req.body.situacao;
   page = req.body.page;
-  console.log(SituacaoProposta)
+
 
   if(SituacaoProposta == 0){ //ABERTA
  situacao = 'NOT IN (2,3)'
@@ -320,7 +320,7 @@ app.post('/api_fechamento_data', function (req, res) {
 
   SituacaoProposta = req.body.situacao;
   page = req.body.page;
-  console.log(SituacaoProposta)
+
 
   if(SituacaoProposta == 0){// ONTEM -> 0
       var data = new Date(),
@@ -330,7 +330,7 @@ app.post('/api_fechamento_data', function (req, res) {
           mesF = (mes.length == 1) ? '0'+mes : mes,
           anoF = data.getFullYear();
           dia_new = (diaF-1).toString();
-          console.log(dia_new)
+      
           dia_new2 = (dia_new.length == 1) ? '0'+dia : dia
     data_convert = anoF+"-"+mesF+"-"+dia_new2;
 
@@ -407,7 +407,7 @@ new_sql = "AND SemanaAnoAprovacao = "+(weekInYear - 1);
       ) AS TBL
 WHERE Tbl.Numero BETWEEN ((${page} - 1) * 10 + 1) AND (${page} * 10)
 `
-console.log(sql)
+
 
   CONEXA_HEAD.execSql(new Request(sql, function(err, rowCount, rows){
     if(err) {
@@ -451,6 +451,60 @@ console.log(sql)
 
 
 //FIM FECHAMENTO POR DATA
+
+
+app.post('/api_infos_uma_proposta_equipamento', function (req, res) {
+
+  id_proposta = req.body.id;
+   
+  var trans = [];
+
+  
+  sql = `SELECT * FROM vis_Painel_Proposta_Equipamento WHERE IdOferta_Frete = ${id_proposta}`
+
+
+  
+
+  CONEXA_HEAD.execSql(new Request(sql, function(err, rowCount, rows){
+    if(err) {
+        throw err;
+    }
+}).on('doneInProc',function(rowCount_transbodo, more2, rows_transbodo){
+ 
+  
+  var contun2 = 0;
+  rows_transbodo.forEach(function (column_trans) {
+    trans[contun2] = {};
+    column_trans.forEach(function (column_trans_entro) {
+      // console.log(column_trans_entro.metadata.colName)
+
+      if(column_trans_entro.value == null){
+        column_trans_entro.value = '';
+      }
+
+      trans[contun2][column_trans_entro.metadata.colName] = column_trans_entro.value;
+
+      // console.log(column_trans_entro.metadata.colName, column_trans_entro.value)
+    });
+
+    contun2 = contun2 + 1;
+  })
+
+  //  console.log(trans)
+  // console.log(driver)
+  
+
+  }).on('requestCompleted',function(rowCount, more, rows){
+   
+    res.json(trans);
+    
+  }));
+
+
+    // res.sendFile(appRoot + '/public/'+req.body.page+'.html');
+});
+
+
 
 app.post('/api_infos_uma_proposta', function (req, res) {
 

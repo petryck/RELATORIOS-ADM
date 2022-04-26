@@ -107,6 +107,40 @@
 </div>
 </div>
 
+
+
+<div class="mostra_equipamentos">
+  <div class="col-12"><center><h6><b id="nome_equipamento">Equipamentos</b></h6></center></div>
+  <div  class="box  rounded-2 align-items-center mb-4 mb-lg-0 p-3 ">
+    <div class="row">
+     
+      <div class="corpo_proposta" style="font-size: 13px;">
+
+        <table class="table" border="1" style="color: white;">
+          <thead>
+              <td style="width: 11px;border-right: 1px solid;"><b>Qtd</b></td>
+              <td><b>Tipo</b></td>
+          </thead>
+          <tbody class="tabelaEquipamentosCorpo">
+            
+          </tbody>
+          
+      </table>
+      
+     <!-- <div class="row" style="text-align: center;vertical-align: middle;">
+    
+     
+      
+     </div> -->
+   
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 <div class="col-12"><center><h6><b>Valores</b></h6></center></div>
 <div  class="box  rounded-2 align-items-center mb-4 mb-lg-0 p-3 ">
   <div class="row">
@@ -315,6 +349,45 @@ $.ajax({
 
       
       $('#lista_atividades').append(atividade)
+
+
+
+      $.ajax({
+      url: '/api_infos_uma_proposta_equipamento',
+      method: 'POST',
+      data:{id:id_proposta},
+      type: 'POST', // For jQuery < 1.9
+      success: function(dataReturn){
+        console.log('api_infos_uma_proposta_equipamento ↓')
+        console.log(dataReturn)
+
+        if(dataReturn[0].Quantidade != 0){
+          $('.mostra_equipamentos').css('display:block;')
+     
+          
+            $('.tabelaEquipamentosCorpo').html('')
+
+            dataReturn.forEach(elementReturn => {
+         
+              var linha = `<tr>
+                        <td style="border-right: 1px solid;" >${elementReturn.Quantidade}</td>
+                        <td>${elementReturn.Equipamento}</td>
+                    </tr>`;
+            
+
+              $('.tabelaEquipamentosCorpo').append(linha)
+
+          });
+
+        }else{
+
+          $('.mostra_equipamentos').css('display:none;')
+
+        }
+
+      }
+
+  });
 
 
       });
